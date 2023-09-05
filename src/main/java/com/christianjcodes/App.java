@@ -13,6 +13,29 @@ public class App implements Runnable, ActionListener {
     JButton submit;
     JTextField input;
 
+    public static boolean containsLetter(char a, char[] arrB) {
+
+        for (int i = 0; i < arrB.length; i++) {
+            if (a == arrB[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int charUsage(char a, char[] arrB) {
+
+        int count = 0;
+
+        for (int i = 0; i < arrB.length; i++) {
+            if (arrB[i] == a) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     @Override
     public void run() {
 
@@ -71,8 +94,20 @@ public class App implements Runnable, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == submit) {
 
 
+
+
+
+        }
+
+
+    }
+
+    public static void main(String[] args) {
+
+        SwingUtilities.invokeLater(new App());
 
     }
 }
