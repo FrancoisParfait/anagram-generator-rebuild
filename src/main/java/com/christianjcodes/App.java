@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Scanner;
 
 public class App implements Runnable, ActionListener {
 
@@ -96,12 +99,83 @@ public class App implements Runnable, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
 
+            InputStream stream = App.class.getClassLoader().getResourceAsStream("enable1.txt");
 
+            HashSet<String> wordList = new HashSet<>();
+            Scanner file = new Scanner(stream);
 
+            while (file.hasNext()) {
+                wordList.add(file.next());
+            }
 
+            userWord = input.getText();
+
+            String inputWord = userWord.toLowerCase();
+
+            char[] usableChars = new char[inputWord.length()];
+
+            for (int i = 0; i < inputWord.length(); i++) {
+                char letter = inputWord.charAt(i);
+                usableChars[i] = letter;
+            }
+
+            HashSet<String> narrowedList = new HashSet<>();
+
+            for (String a : wordList) {
+
+                boolean wrongLetter = false;
+
+                // Check for any letters that aren't in inputWord
+                for (int i = 0; i < a.length(); i++) {
+                    char letter = a.charAt(i);
+                    if (!containsLetter(letter, usableChars)) {
+                        wrongLetter = true;
+                    }
+                }
+
+                if (!wrongLetter && a.length() == usableChars.length) {
+                    char[] aChars = new char[a.length()];
+
+                    for (int i = 0; i < a.length(); i++) {
+                        char letter = a.charAt(i);
+                        aChars[i] = letter;
+                    }
+
+                    int match = 0;
+
+                    for (int i = 0; i < usableChars.length; i++) {
+                        for (int j = 0; j < aChars.length; j++) {
+                            if (charUsage(usableChars[i], usableChars) == charUsage(aChars[j], aChars)) {
+                                if (usableChars[i] == aChars[j]) {
+                                    match++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (match == inputWord.length() && !a.equals(inputWord)) {
+                        narrowedList.add(a);
+                    }
+                }
+            }
+
+            String narrowedString = String.join(", ", narrowedList);
+
+            try {
+                int i = Integer.parseInt(userWord);
+                outputArea.setText("Words, not numbers!");
+            } catch (NumberFormatException exception) {
+                if (inputWord.isEmpty()) {
+                    outputArea.setText("Enter a word!");
+                } else if (narrowedList.isEmpty()){
+                    outputArea.setText("No anagrams :(");
+                } else {
+                    outputArea.setText(narrowedString);
+                }
+            }
 
         }
-
 
     }
 
