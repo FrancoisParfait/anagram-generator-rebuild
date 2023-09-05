@@ -16,6 +16,11 @@ public class App implements Runnable, ActionListener {
     @Override
     public void run() {
 
+        ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("anagram-2.png")));
+        Image image2 = image.getImage();
+        Image newImg = image2.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+        image = new ImageIcon(newImg);
+
         JLabel description = new JLabel();
         description.setText("Let's make some anagrams");
         description.setIcon(image);
