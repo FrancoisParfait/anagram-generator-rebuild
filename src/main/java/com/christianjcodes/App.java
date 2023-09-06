@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -42,7 +43,8 @@ public class App implements Runnable, ActionListener {
     @Override
     public void run() {
 
-        ImageIcon image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("anagram-2.png")));
+        ImageIcon image = new ImageIcon(getClass().getClassLoader().getResource("anagram-2.png"));
+
         Image image2 = image.getImage();
         Image newImg = image2.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
         image = new ImageIcon(newImg);
